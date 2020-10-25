@@ -102,3 +102,5 @@ public
 
 # prisma
 prisma/
+
+dist/
