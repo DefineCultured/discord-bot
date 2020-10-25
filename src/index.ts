@@ -1,14 +1,15 @@
 import fs from 'fs'
 import * as Discord from 'discord.js'
 import 'dotenv/config'
+
 import { Bot } from './interfaces'
 
 const bot: Bot = new Discord.Client({ disableMentions: 'everyone' })
-
 bot.commands = new Discord.Collection()
 
 // Load commands
-const generalCommands = fs.readdirSync(__dirname + '/commands').filter(file => file.endsWith('.ts'))
+const fileRegex = new RegExp(/\.(js|ts)$/)
+const generalCommands = fs.readdirSync(__dirname + '/commands').filter(file => fileRegex.test(file))
 
 for (const file of generalCommands) {
   const props = require(__dirname + `/commands/${file}`)
@@ -23,7 +24,7 @@ for (const file of generalCommands) {
 fs.readdir(__dirname + '/modules/events', (err, files) => {
   if (err) return console.error(err)
   files.forEach(file => {
-    if (!file.endsWith('.ts')) return
+    if (!fileRegex.test(file)) return
 
     const event = require(__dirname + `/modules/events/${file}`)
     const eventName = file.split('.')[0]

@@ -1,12 +1,11 @@
 import config from '../../../config.json'
 import Discord, { Message } from 'discord.js'
 import 'dotenv/config'
-
 import { Bot } from '../../interfaces'
 
-const bot: Bot = new Discord.Client({ disableMentions: 'everyone' })
 const { SERVER_ID, BOT_CHANNEL_ID } = process.env
 
+const bot: Bot = new Discord.Client({ disableMentions: 'everyone' })
 bot.commands = new Discord.Collection()
 
 module.exports = (bot: Bot, message: Message) => {
