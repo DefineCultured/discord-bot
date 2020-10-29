@@ -1,10 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import NodeCache from 'node-cache'
-
 import { Message } from 'discord.js'
-import { Bot } from '../interfaces'
 
-const cache = new NodeCache({ stdTTL: 1800 })
+import { Bot } from '../interfaces'
+import cache from '../utils/cache'
 
 module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
   const prisma = new PrismaClient()
@@ -15,7 +13,7 @@ module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
 
     if (value === undefined) {
       emails = await prisma.subscriptionEmail.count()
-      cache.set('emails', emails)
+      await cache.set('emails', emails)
     } else {
       emails = value
     }
