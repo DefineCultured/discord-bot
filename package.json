@@ -1,7 +1,7 @@
 {
 	"name": "definecultured-bot",
 	"version": "0.1.0",
-	"main": "dist/index.js",
+	"main": "dist/src/index.js",
 	"scripts": {
 		"dev": "ts-node-dev --no-notify src/index.ts",
 		"start": "npm run build && node dist/src/index.js",
@@ -10,6 +10,7 @@
 	"author": "Jan Henning",
 	"dependencies": {
 		"@prisma/client": "^2.9.0",
+		"csv-writer": "^1.6.0",
 		"discord.js": "^12.4.1",
 		"dotenv": "^8.2.0",
 		"node-cache": "^5.1.2",

@@ -10,9 +10,9 @@ bot.commands = new Discord.Collection()
 
 module.exports = (bot: Bot, message: Message) => {
   if (message.author.bot) return
-  if (message.channel.type === 'dm') return
-  if (message.guild.id !== SERVER_ID) return
-  if (message.channel.id !== BOT_CHANNEL_ID) return
+  // if (message.channel.type === 'dm') return
+  // if (message.guild.id !== SERVER_ID) return
+  // if (message.channel.id !== BOT_CHANNEL_ID) return
 
   const prefix = config.prefix
   const messageArray = message.content.split(' ')

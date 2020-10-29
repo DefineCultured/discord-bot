@@ -22,9 +22,9 @@ module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
 
     const actual = emails - 5
     message.channel.send(`${actual} emails on record.`)
-  } catch (e) {
-    console.error(e)
-    throw e
+  } catch (err) {
+    console.error(err)
+    throw err
   } finally {
     prisma.$disconnect()
   }
