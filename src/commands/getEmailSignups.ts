@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 import { Message } from 'discord.js'
 
-import { Bot } from '../interfaces'
+import { IBot } from '../interfaces'
 import cache from '../utils/cache'
 
-module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
+module.exports.run = async (_bot: IBot, message: Message, _args: any) => {
   const prisma = new PrismaClient()
 
   try {

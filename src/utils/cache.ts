@@ -1,9 +1,9 @@
 import NodeCache, { Key, Data } from 'node-cache'
-import { Cache } from '../interfaces'
+import { ICache } from '../interfaces'
 
 const myCache = new NodeCache({ stdTTL: 1800 })
 
-const cache: Cache = {}
+const cache: ICache = {}
 
 cache.get = (key: Key) => {
   return new Promise((resolve, _reject) => {

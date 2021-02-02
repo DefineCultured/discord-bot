@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import fs from 'fs'
 import { Message, MessageAttachment } from 'discord.js'
 
-import { Bot } from '../interfaces'
+import { IBot } from '../interfaces'
 
 const createCsvWriter = require('csv-writer').createObjectCsvWriter
 
@@ -18,7 +18,7 @@ const csvWriter = createCsvWriter({
   ]
 })
 
-module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
+module.exports.run = async (_bot: IBot, message: Message, _args: any) => {
   const prisma = new PrismaClient()
 
   message.channel.startTyping()

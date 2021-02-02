@@ -1,9 +1,13 @@
 import { Client } from 'discord.js'
 
-export interface Bot extends Client {
+export interface IBot extends Client {
   [key: string]: any;
 }
 
-export interface Cache {
+export interface ICache {
+  [key: string]: any;
+}
+
+export interface IStock {
   [key: string]: any;
 }

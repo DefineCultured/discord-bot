@@ -1,18 +1,18 @@
 import config from '../../../config.json'
 import Discord, { Message } from 'discord.js'
 import 'dotenv/config'
-import { Bot } from '../../interfaces'
+import { IBot } from '../../interfaces'
 
-const { SERVER_ID, BOT_CHANNEL_ID } = process.env
+const { SERVER_ID, BOT_CHANNEL_ID, STOCK_CHANNEL_ID } = process.env
 
-const bot: Bot = new Discord.Client({ disableMentions: 'everyone' })
+const bot: IBot = new Discord.Client({ disableMentions: 'everyone' })
 bot.commands = new Discord.Collection()
 
-module.exports = (bot: Bot, message: Message) => {
+module.exports = (bot: IBot, message: Message) => {
   if (message.author.bot) return
   if (message.channel.type === 'dm') return
   if (message.guild.id !== SERVER_ID) return
-  if (message.channel.id !== BOT_CHANNEL_ID) return
+  if (message.channel.id !== BOT_CHANNEL_ID || message.channel.id !== STOCK_CHANNEL_ID) return
 
   const prefix = config.prefix
   const messageArray = message.content.split(' ')

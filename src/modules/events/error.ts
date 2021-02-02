@@ -1,7 +1,7 @@
 import { ErrorEvent } from 'discord.js'
-import { Bot } from '../../interfaces'
+import { IBot } from '../../interfaces'
 
-module.exports = (_bot: Bot, error: ErrorEvent) => {
+module.exports = (_bot: IBot, error: ErrorEvent) => {
   console.error(error)
   throw error
 }

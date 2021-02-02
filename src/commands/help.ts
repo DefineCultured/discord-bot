@@ -1,9 +1,9 @@
 import config from '../../config.json'
 import { Message, MessageEmbed } from 'discord.js'
 
-import { Bot } from '../interfaces'
+import { IBot } from '../interfaces'
 
-module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
+module.exports.run = async (_bot: IBot, message: Message, _args: any) => {
   const helpEmbed = new MessageEmbed()
     .setColor('#00FF00')
     .setAuthor('Define Cultured', 'https://i.imgur.com/mVKllA1.jpg', 'https://definecultured.com/')
@@ -12,6 +12,7 @@ module.exports.run = async (_bot: Bot, message: Message, _args: any) => {
     .addField('!emails', 'Get current amount of emails. (alias !e)')
     .addField('!export', 'Export current signup data to CSV file.')
     .addField('!help', 'Show this help embed. (alias !commands)')
+    .addField('!p <symbol>', 'Get price for stock by symbol. (alias !s)')
     .setTimestamp()
     .setFooter(`Define Cultured Bot v${config.version}`)
 

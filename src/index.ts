@@ -2,9 +2,9 @@ import fs from 'fs'
 import * as Discord from 'discord.js'
 import 'dotenv/config'
 
-import { Bot } from './interfaces'
+import { IBot } from './interfaces'
 
-const bot: Bot = new Discord.Client({ disableMentions: 'everyone' })
+const bot: IBot = new Discord.Client({ disableMentions: 'everyone' })
 bot.commands = new Discord.Collection()
 
 // Load commands
