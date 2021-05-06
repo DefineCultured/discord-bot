@@ -11,3 +11,7 @@ export interface ICache {
 export interface IStock {
   [key: string]: any;
 }
+
+export interface ICrypto {
+  [key: string]: any;
+}

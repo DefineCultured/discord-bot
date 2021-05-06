@@ -1,29 +1,31 @@
 import _ from 'lodash'
 import { Message, MessageEmbed } from 'discord.js'
-import moment from 'moment-timezone'
 
 import config from '../../config.json'
 import { IBot } from '../interfaces'
-import StockAPI from '../utils/StockAPI'
+import { get } from '../utils/CryptoAPI'
+
+import { withCommas } from '../utils/helpers'
 
 module.exports.run = async (_bot: IBot, message: Message, args: any) => {
   if (!args.length) return message.channel.send('Missing symbol')
 
   try {
     const symbol = args[0].toString().toUpperCase().trim()
-    const { data } = await StockAPI.get(symbol)
+    const response = await get(symbol)
 
-    if (!data.t) return message.channel.send(`No data found for ${symbol}`)
+    if (!response.data) return message.channel.send(`No data found for ${symbol}`)
+
+    const requestedSymbol = response.data.data[symbol]
 
     const stockEmbed = new MessageEmbed()
       .setColor('#00FF00')
       .setAuthor('Define Cultured', 'https://i.imgur.com/mVKllA1.jpg', 'https://definecultured.com/')
-      .addField('Open', `$${data.o}`, true)
-      .addField('Previous Close', `$${data.pc}`, true)
-      .addField('High', `$${data.h}`, true)
-      .addField('Low', `$${data.l}`, true)
-      .addField('Current', `$${data.c}`, true)
-      .addField('Price at', moment.unix(data.t).tz('America/New_York').format('ddd, MMM Do, h:mm a'))
+      .addField('Coin:', `${requestedSymbol.name}`, true)
+      .addField('Symbol', `${requestedSymbol.symbol}`, true)
+      .addField('Price', `$${withCommas(requestedSymbol.quote.USD.price.toFixed(2))}`, true)
+      .addField('24h Change', `${Number(requestedSymbol.quote.USD.percent_change_24h).toFixed(2)}%`, true)
+      .addField('7d Change', `${Number(requestedSymbol.quote.USD.percent_change_7d).toFixed(2)}%`, true)
       .setTimestamp()
       .setFooter(`Define Cultured Bot v${config.version}`)
 
@@ -35,5 +37,6 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
 }
 
 module.exports.command = {
-  name: 'p'
+  name: 'crypto',
+  alias: 'c'
 }
