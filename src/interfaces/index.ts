@@ -1,5 +1,7 @@
 import { Client } from 'discord.js'
 
+export type StrNum = string | number
+
 export interface IBot extends Client {
   [key: string]: any;
 }

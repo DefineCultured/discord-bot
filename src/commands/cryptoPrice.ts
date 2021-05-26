@@ -5,7 +5,7 @@ import config from '../../config.json'
 import { IBot } from '../interfaces'
 import { get } from '../utils/CryptoAPI'
 
-import { withCommas } from '../utils/helpers'
+import { prettyPrice } from '../utils/helpers'
 
 module.exports.run = async (_bot: IBot, message: Message, args: any) => {
   if (!args.length) return message.channel.send('Missing symbol')
@@ -23,7 +23,8 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
       .setAuthor('Define Cultured', 'https://i.imgur.com/mVKllA1.jpg', 'https://definecultured.com/')
       .addField('Coin:', `${requestedSymbol.name}`, true)
       .addField('Symbol', `${requestedSymbol.symbol}`, true)
-      .addField('Price', `$${withCommas(requestedSymbol.quote.USD.price.toFixed(2))}`, true)
+      .addField('Current Price', `$${prettyPrice(requestedSymbol.quote.USD.price)}`, true)
+      .addField('1h Change', `${Number(requestedSymbol.quote.USD.percent_change_1h).toFixed(2)}%`, true)
       .addField('24h Change', `${Number(requestedSymbol.quote.USD.percent_change_24h).toFixed(2)}%`, true)
       .addField('7d Change', `${Number(requestedSymbol.quote.USD.percent_change_7d).toFixed(2)}%`, true)
       .setTimestamp()

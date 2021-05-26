@@ -6,6 +6,8 @@ import config from '../../config.json'
 import { IBot } from '../interfaces'
 import StockAPI from '../utils/StockAPI'
 
+import { prettyPrice } from '../utils/helpers'
+
 module.exports.run = async (_bot: IBot, message: Message, args: any) => {
   if (!args.length) return message.channel.send('Missing symbol')
 
@@ -18,11 +20,11 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
     const stockEmbed = new MessageEmbed()
       .setColor('#00FF00')
       .setAuthor('Define Cultured', 'https://i.imgur.com/mVKllA1.jpg', 'https://definecultured.com/')
-      .addField('Prev. Close', `$${Number(data.pc).toFixed(2)}`, true)
-      .addField('Low', `$${Number(data.l).toFixed(2)}`, true)
-      .addField('High', `$${Number(data.h).toFixed(2)}`, true)
-      .addField('Open', `$${Number(data.o).toFixed(2)}`, true)
-      .addField('Current', `$${Number(data.c).toFixed(2)}`, true)
+      .addField('Prev. Close', `$${prettyPrice(data.pc)}`, true)
+      .addField('Low', `$${prettyPrice(data.l)}`, true)
+      .addField('High', `$${prettyPrice(data.h)}`, true)
+      .addField('Open', `$${prettyPrice(data.o)}`, true)
+      .addField('Current Price', `$${prettyPrice(data.c)}`, true)
       .addField('Price at', moment.unix(data.t).tz('America/New_York').format('ddd, MMM Do, h:mm a'))
       .setTimestamp()
       .setFooter(`Define Cultured Bot v${config.version}`)
@@ -35,5 +37,6 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
 }
 
 module.exports.command = {
-  name: 'p'
+  name: 'p',
+  alias: 'stock'
 }
