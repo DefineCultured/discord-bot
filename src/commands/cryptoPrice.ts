@@ -3,7 +3,7 @@ import { Message, MessageEmbed } from 'discord.js'
 
 import config from '../../config.json'
 import { IBot } from '../interfaces'
-import { get } from '../utils/CryptoAPI'
+import CryptoAPI from '../utils/CryptoAPI'
 
 import { prettyPrice } from '../utils/helpers'
 
@@ -12,7 +12,7 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
 
   try {
     const symbol = args[0].toString().toUpperCase().trim()
-    const response = await get(symbol)
+    const response = await CryptoAPI.get(symbol)
 
     if (!response.data) return message.channel.send(`No data found for ${symbol}`)
 
