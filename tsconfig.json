@@ -10,7 +10,6 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "noUnusedParameters": true,
-    "types": ["node"],
     "paths": {
       "*": [
         "node_modules/*"

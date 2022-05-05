@@ -17,3 +17,7 @@ export interface IStock {
 export interface ICrypto {
   [key: string]: any;
 }
+
+export interface IURL {
+  [key: string]: any;
+}

@@ -14,6 +14,7 @@ module.exports.run = async (_bot: IBot, message: Message, _args: any) => {
     .addField('!help', 'Show this help embed. (alias !commands)')
     .addField('!p <symbol>', 'Get price for stock by symbol. (alias !stock)')
     .addField('!c <symbol>', 'Get price for crypto by symbol. (alias !crypto)')
+    .addField('!shorten <url> <keyword?>', 'Shorten URL. Keyword is optional.')
     .setTimestamp()
     .setFooter(`Define Cultured Bot v${config.version}`)
 

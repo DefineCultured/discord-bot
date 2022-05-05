@@ -7,7 +7,7 @@ module.exports.run = async (_bot: IBot, message: Message, _args: any) => {
   try {
     cache.del('emails')
 
-    message.channel.send(`Cache cleared.`)
+    message.channel.send('Cache cleared.')
   } catch (err) {
     console.error(err)
     throw err
