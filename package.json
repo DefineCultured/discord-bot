@@ -10,7 +10,7 @@
   },
   "author": "Jan Henning",
   "dependencies": {
-    "@prisma/client": "^2.9.0",
+    "@prisma/client": "^3.14.0",
     "@types/qs": "^6.9.7",
     "axios": "^0.21.1",
     "csv-writer": "^1.6.0",
