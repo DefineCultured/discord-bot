@@ -1,7 +1,6 @@
-import _ from 'lodash'
 import { Message, MessageEmbed } from 'discord.js'
 
-import config from '../../config.json'
+import { version } from '../../package.json'
 import { IBot } from '../interfaces'
 import CryptoAPI from '../utils/CryptoAPI'
 
@@ -28,7 +27,7 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
       .addField('24h Change', `${Number(requestedSymbol.quote.USD.percent_change_24h).toFixed(2)}%`, true)
       .addField('7d Change', `${Number(requestedSymbol.quote.USD.percent_change_7d).toFixed(2)}%`, true)
       .setTimestamp()
-      .setFooter(`Define Cultured Bot v${config.version}`)
+      .setFooter(`Define Cultured Bot v${version}`)
 
     message.channel.send(stockEmbed)
   } catch (e) {

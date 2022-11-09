@@ -1,8 +1,7 @@
-import _ from 'lodash'
 import { Message, MessageEmbed } from 'discord.js'
 import moment from 'moment-timezone'
 
-import config from '../../config.json'
+import { version } from '../../package.json'
 import { IBot } from '../interfaces'
 import StockAPI from '../utils/StockAPI'
 
@@ -27,7 +26,7 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
       .addField('Current Price', `$${prettyPrice(data.c)}`, true)
       .addField('Price at', moment.unix(data.t).tz('America/New_York').format('ddd, MMM Do, h:mm a'))
       .setTimestamp()
-      .setFooter(`Define Cultured Bot v${config.version}`)
+      .setFooter(`Define Cultured Bot v${version}`)
 
     message.channel.send(stockEmbed)
   } catch (e) {

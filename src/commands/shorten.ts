@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import config from '../../config.json'
+import { permittedUsers } from '../../config.json'
 
 import { IBot } from '../interfaces'
 import UrlAPI from '../utils/UrlAPI'
@@ -7,7 +7,7 @@ import UrlAPI from '../utils/UrlAPI'
 import { codeBlock } from '../utils/helpers'
 
 module.exports.run = async (_bot: IBot, message: Message, args: any) => {
-  if (!config.permittedUsers.includes(message.author.id)) return message.channel.send('Not authorized')
+  if (!permittedUsers.includes(message.author.id)) return message.channel.send('Not authorized')
   if (!args.length) return message.channel.send('Missing URL')
 
   try {

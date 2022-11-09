@@ -3,9 +3,6 @@
   "bracketSpacing": true,
   "endOfLine": "auto",
   "insertPragma": false,
-  "jsxBracketSameLine": false,
-  "jsxSingleQuote": true,
-  "printWidth": 120,
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
   "requirePragma": false,
@@ -14,5 +11,5 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "useTabs": false,
-  "parser": "babel"
+  "printWidth": 120
 }

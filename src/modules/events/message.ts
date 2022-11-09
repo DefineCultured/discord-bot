@@ -1,9 +1,7 @@
-import config from '../../../config.json'
+import { prefix, permittedGuilds, permittedChannels } from '../../../config.json'
 import Discord, { Message } from 'discord.js'
 import 'dotenv/config'
 import { IBot } from '../../interfaces'
-
-const { SERVER_ID, BOT_CHANNEL_ID, STOCK_CHANNEL_ID, PARAGON_CHANNEL_ID } = process.env
 
 const bot: IBot = new Discord.Client({ disableMentions: 'everyone' })
 bot.commands = new Discord.Collection()
@@ -11,20 +9,14 @@ bot.commands = new Discord.Collection()
 module.exports = (bot: IBot, message: Message) => {
   if (message.author.bot) return
   if (message.channel.type === 'dm') return
-  if (message.guild.id !== SERVER_ID) return
-  if (
-    message.channel.id !== BOT_CHANNEL_ID &&
-    message.channel.id !== STOCK_CHANNEL_ID &&
-    message.channel.id !== PARAGON_CHANNEL_ID
-  )
-    return
+  if (!permittedGuilds.includes(message.guild.id)) return
+  if (!permittedChannels.includes(message.channel.id)) return
 
-  const prefix = config.prefix
   const messageArray = message.content.split(' ')
   const cmd = messageArray[0].toLowerCase()
   const args = message.content.slice(prefix.length).split(/ +/).slice(1)
 
-  if (message.content.startsWith(config.prefix)) {
+  if (message.content.startsWith(prefix)) {
     const commandfile = bot.commands.get(cmd.slice(prefix.length))
     if (commandfile) {
       commandfile.run(bot, message, args)

@@ -1,4 +1,4 @@
-import config from '../../config.json'
+import { version } from '../../package.json'
 import { Message, MessageEmbed } from 'discord.js'
 
 import { IBot } from '../interfaces'
@@ -11,7 +11,7 @@ module.exports.run = async (bot: IBot, message: Message, _args: any) => {
     .addField('Bot Latency', `${Date.now() - message.createdTimestamp}ms`)
     .addField('API Latency', `${Math.round(bot.ws.ping)}ms`)
     .setTimestamp()
-    .setFooter(`Define Cultured Bot v${config.version}`)
+    .setFooter(`Define Cultured Bot v${version}`)
 
   message.channel.send(statusEmbed)
 }
