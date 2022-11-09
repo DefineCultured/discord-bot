@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import { IURL } from '../interfaces'
+import 'dotenv/config'
 
 const API_URL = process.env.YOURLS_API_URL
 

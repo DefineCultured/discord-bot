@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ICrypto } from '../interfaces'
+import 'dotenv/config'
 
 const API_URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
 

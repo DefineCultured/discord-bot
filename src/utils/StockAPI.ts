@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { IStock } from '../interfaces'
+import 'dotenv/config'
 
 const API_URL = 'https://finnhub.io/api/v1/'
 
