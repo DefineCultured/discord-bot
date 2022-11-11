@@ -4,7 +4,7 @@ import { permittedUsers } from '../../config.json'
 import { IBot } from '../interfaces'
 import UrlAPI from '../utils/UrlAPI'
 
-import { codeBlock } from '../utils/helpers'
+import { codeBlock, URLRegex } from '../utils/helpers'
 
 module.exports.run = async (_bot: IBot, message: Message, args: any) => {
   if (!permittedUsers.includes(message.author.id)) return message.channel.send('Not authorized')
@@ -12,6 +12,12 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
 
   try {
     const [url, keyword] = args
+    const isURL = URLRegex.test(url)
+
+    if (!isURL) {
+      return message.channel.send('Invalid URL')
+    }
+
     const { data } = await UrlAPI.shorten(url, keyword)
 
     if (data.status === 'fail') {
@@ -20,13 +26,14 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
 
     const shorturl = codeBlock('js', data.shorturl, true)
 
-    return message.channel.send(`Created shorturl ${shorturl}`)
+    message.channel.send(`Created shorturl ${shorturl}`)
   } catch (e) {
     console.error(e)
     if (e.response.data.status === 'fail') {
       return message.channel.send(e.response.data.message)
     }
-    return message.channel.send('Something went wrong..')
+
+    message.channel.send('Something went wrong..')
   }
 }
 

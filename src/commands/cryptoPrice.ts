@@ -32,7 +32,7 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
     message.channel.send(stockEmbed)
   } catch (e) {
     console.error(e)
-    return message.channel.send('Something went wrong..')
+    message.channel.send('Something went wrong..')
   }
 }
 

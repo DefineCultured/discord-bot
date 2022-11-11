@@ -22,3 +22,5 @@ export function codeBlock(language: string, code: string, inline = false): strin
   }
   return `\`\`\`${language}\n${code}\`\`\``
 }
+
+export const URLRegex = /^[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&//=]*)$/
