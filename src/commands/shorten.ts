@@ -4,7 +4,7 @@ import { permittedUsers } from '../../config.json'
 import { IBot } from '../interfaces'
 import UrlAPI from '../utils/UrlAPI'
 
-import { codeBlock, URLRegex } from '../utils/helpers'
+import { codeBlock, isValidURL } from '../utils/helpers'
 
 module.exports.run = async (_bot: IBot, message: Message, args: any) => {
   if (!permittedUsers.includes(message.author.id)) return message.channel.send('Not authorized')
@@ -12,9 +12,8 @@ module.exports.run = async (_bot: IBot, message: Message, args: any) => {
 
   try {
     const [url, keyword] = args
-    const isURL = URLRegex.test(url)
 
-    if (!isURL) {
+    if (!isValidURL(url)) {
       return message.channel.send('Invalid URL')
     }
 
