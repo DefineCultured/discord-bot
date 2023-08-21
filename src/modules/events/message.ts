@@ -1,4 +1,4 @@
-import { prefix, permittedGuilds, permittedChannels } from '../../../config'
+import { prefix, permittedGuilds, permittedChannels } from '../../../config.js'
 import Discord, { Message } from 'discord.js'
 import 'dotenv/config'
 import { IBot } from '../../interfaces'
