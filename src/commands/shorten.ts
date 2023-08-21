@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import { permittedUsers } from '../../config.json'
+import { permittedUsers } from '../../config'
 
 import { IBot } from '../interfaces'
 import UrlAPI from '../utils/UrlAPI'
