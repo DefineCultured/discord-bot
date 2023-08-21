@@ -1,4 +1,4 @@
-module.exports = {
+export const config = {
   prefix: '!',
   adminPermission: [
     '92551186284027904' // Jan
