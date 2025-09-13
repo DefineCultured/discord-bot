@@ -2,6 +2,10 @@
   "name": "definecultured-bot",
   "version": "0.3.0",
   "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "npm run build && node dist/src/index.js",
