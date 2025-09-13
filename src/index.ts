@@ -1,36 +1,44 @@
-import fs from 'fs'
-import * as Discord from 'discord.js'
-import 'dotenv/config'
+import fs from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+import { Client, Collection, GatewayIntentBits } from "discord.js"
+import "dotenv/config"
 
-import { IBot } from './interfaces'
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
+})
+client.commands = new Collection()
 
-const bot: IBot = new Discord.Client({ disableMentions: 'everyone' })
-bot.commands = new Discord.Collection()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-// Load commands
-const fileRegex = new RegExp(/\.(js|ts)$/)
-const generalCommands = fs.readdirSync(__dirname + '/commands').filter(file => fileRegex.test(file))
+const commandsPath = path.join(__dirname, "commands")
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".ts"))
 
-for (const file of generalCommands) {
-  const props = require(__dirname + `/commands/${file}`)
-  console.log(`${file} loaded!`)
-  bot['commands'].set(props.command.name, props)
-  if (props.command.alias) {
-    bot['commands'].set(props.command.alias, props)
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file)
+  const command = await import(`file://${filePath}`)
+
+  if ("data" in command && "execute" in command) {
+    client.commands.set(command.data.name, command)
+  } else {
+    console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
   }
 }
 
-// Event listener
-fs.readdir(__dirname + '/modules/events', (err, files) => {
-  if (err) return console.error(err)
-  files.forEach(file => {
-    if (!fileRegex.test(file)) return
+const eventsPath = path.join(__dirname, "events")
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith(".ts"))
 
-    const event = require(__dirname + `/modules/events/${file}`)
-    const eventName = file.split('.')[0]
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file)
+  const event = await import(`file://${filePath}`)
+  const eventHandler = event.default
 
-    bot.on(eventName, event.bind(null, bot))
-  })
-})
+  if (eventHandler.once) {
+    client.once(eventHandler.name, (...args) => eventHandler.execute(...args))
+  } else {
+    client.on(eventHandler.name, (...args) => eventHandler.execute(...args))
+  }
+}
 
-bot.login(process.env.BOT_TOKEN)
+client.login(process.env.BOT_TOKEN)

@@ -1,41 +1,39 @@
-import { Message } from 'discord.js'
-import { config } from '../config'
+import {
+  type ChatInputCommandInteraction,
+  SlashCommandBuilder
+} from "discord.js"
 
-import { IBot } from '../interfaces'
-import UrlAPI from '../utils/UrlAPI'
+import { codeBlock, isValidURL } from "../utils/helpers"
+import UrlAPI from "../utils/UrlAPI"
 
-import { codeBlock, isValidURL } from '../utils/helpers'
+export const data = new SlashCommandBuilder()
+  .setName("shorten")
+  .setDescription("Shorten a URL")
+  .addStringOption(option =>
+    option.setName("url").setDescription("The URL to shorten").setRequired(true)
+  )
+  .addStringOption(option =>
+    option
+      .setName("keyword")
+      .setDescription("The keyword to use for the short URL")
+      .setRequired(false)
+  )
 
-module.exports.run = async (_bot: IBot, message: Message, args: any) => {
-  if (!config.permittedUsers.includes(message.author.id)) return message.channel.send('Not authorized')
-  if (!args.length) return message.channel.send('Missing URL')
+export const execute = async (interaction: ChatInputCommandInteraction) => {
+  const url = interaction.options.getString("url")!
+  const keyword = interaction.options.getString("keyword")
 
-  try {
-    const [url, keyword] = args
-
-    if (!isValidURL(url)) {
-      return message.channel.send('Invalid URL')
-    }
-
-    const { data } = await UrlAPI.shorten(url, keyword)
-
-    if (data.status === 'fail') {
-      return message.channel.send(data.message)
-    }
-
-    const shorturl = codeBlock('js', data.shorturl, true)
-
-    message.channel.send(`Created shorturl ${shorturl}`)
-  } catch (e) {
-    console.error(e)
-    if (e.response.data.status === 'fail') {
-      return message.channel.send(e.response.data.message)
-    }
-
-    message.channel.send('Something went wrong..')
+  if (!isValidURL(url)) {
+    return interaction.reply({ content: "Invalid URL" })
   }
-}
 
-module.exports.command = {
-  name: 'shorten'
+  const { data } = await UrlAPI.shorten(url, keyword)
+
+  if (data.status === "fail") {
+    return interaction.reply({ content: data.message })
+  }
+
+  const shorturl = codeBlock("js", data.shorturl, true)
+
+  await interaction.reply({ content: `Created shorturl ${shorturl}` })
 }

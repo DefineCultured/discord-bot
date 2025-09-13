@@ -1,18 +1,19 @@
-import axios from 'axios'
-import qs from 'qs'
-import { IURL } from '../interfaces'
-import 'dotenv/config'
+import axios from "axios"
+import qs from "qs"
+import "dotenv/config"
 
 const API_URL = process.env.YOURLS_API_URL
 
-const UrlAPI: IURL = {}
+const UrlAPI: {
+  [key: string]: any
+} = {}
 
 UrlAPI.shorten = async (url: string, keyword?: string) => {
   const params = qs.stringify({
     signature: process.env.YOURLS_TOKEN,
-    action: 'shorturl',
-    format: 'json',
-    keyword: keyword || null,
+    action: "shorturl",
+    format: "json",
+    keyword: keyword ?? null,
     url
   })
 

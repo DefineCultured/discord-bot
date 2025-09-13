@@ -1,21 +1,35 @@
-import { version } from '../../package.json'
-import { Message, MessageEmbed } from 'discord.js'
+import {
+  type ChatInputCommandInteraction,
+  EmbedBuilder,
+  SlashCommandBuilder
+} from "discord.js"
+import { version } from "../../package.json"
 
-import { IBot } from '../interfaces'
+export const data = new SlashCommandBuilder()
+  .setName("status")
+  .setDescription("Show help embed.")
 
-module.exports.run = async (bot: IBot, message: Message, _args: any) => {
-  const statusEmbed = new MessageEmbed()
-    .setColor('#000000')
-    .setAuthor('Define Cultured', 'https://i.imgur.com/mVKllA1.jpg', 'https://definecultured.com/')
-    .setThumbnail('https://i.imgur.com/mVKllA1.jpg')
-    .addField('Bot Latency', `${Date.now() - message.createdTimestamp}ms`)
-    .addField('API Latency', `${Math.round(bot.ws.ping)}ms`)
+export const execute = async (interaction: ChatInputCommandInteraction) => {
+  const statusEmbed = new EmbedBuilder()
+    .setColor("#000000")
+    .setAuthor({
+      name: "Define Cultured",
+      iconURL: "https://i.imgur.com/mVKllA1.jpg",
+      url: "https://definecultured.com/"
+    })
+    .setThumbnail("https://i.imgur.com/mVKllA1.jpg")
+    .addFields(
+      {
+        name: "Bot Latency",
+        value: `${Date.now() - interaction.createdTimestamp}ms`
+      },
+      {
+        name: "API Latency",
+        value: `${Math.round(interaction.client.ws.ping)}ms`
+      }
+    )
     .setTimestamp()
-    .setFooter(`Define Cultured Bot v${version}`)
+    .setFooter({ text: `Define Cultured Bot v${version}` })
 
-  message.channel.send(statusEmbed)
-}
-
-module.exports.command = {
-  name: 'status'
+  await interaction.reply({ embeds: [statusEmbed] })
 }
